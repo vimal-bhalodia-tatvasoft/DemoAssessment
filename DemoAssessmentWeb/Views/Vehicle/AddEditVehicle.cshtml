@@ -1,0 +1,95 @@
+﻿@{
+    Layout = "";
+}
+@model DemoAssessmentWeb.Models.VehicleModel
+
+<form method="post" asp-action="AddEditVehicle" asp-controller="Vehicle" onsubmit="SubmitForm();" id="VehicleForm">
+    <div class="row">
+        <input type="hidden" asp-for="VehicleId" />
+        <div class="col-sm-12">
+            <!-- select -->
+            <div class="form-group">
+                <label asp-for="ModelId">Model</label>
+                <select class="form-control" asp-for="ModelId" asp-items="Model.ModelList">
+                    <option value="">Select</option>
+                </select>
+                <span asp-validation-for="ModelId"></span>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <!-- select -->
+            <div class="form-group">
+                <label asp-for="StatusId">Vehicle Status</label>
+                <select class="form-control" asp-for="StatusId" asp-items="Model.StatusList">
+                    <option value="">Select</option>
+                </select>
+                <span asp-validation-for="StatusId"></span>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="Year">Year</label>
+                <input type="text" class="form-control rounded-0" asp-for="Year" placeholder="Year">
+                <span asp-validation-for="Year"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label asp-for="Color">Color</label>
+                <input type="text" class="form-control rounded-0" asp-for="Color" placeholder="Color">
+                <span asp-validation-for="Color"></span>
+            </div>
+        </div>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+<link href="~/lib/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+<script src="~/lib/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $("#VehicleForm").validate({
+            rules: {
+                ModelId: {
+                    required: true,
+                },
+                StatusId: {
+                    required: true,
+                },
+                Year: {
+                    required: true,
+                },
+                Color: {
+                    required: true,
+                }
+            },
+            FirstProductionDate:
+            {
+                required: true,
+            },
+            messages: {
+                ModelId: {
+                    required: "Please select Model.",
+                },
+                StatusId: {
+                    required: "Please select vehicle status",
+                },
+                Year: {
+                    required: "Pleaes enter year",
+                },
+                Color: {
+                    required: "Please enter color",
+                }
+            }
+        });
+    });
+
+    function SubmitForm() {
+
+    }
+
+</script>

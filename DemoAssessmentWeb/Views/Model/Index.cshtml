@@ -1,0 +1,139 @@
+﻿<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Models</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Models</li>
+                </ol>
+            </div>
+        </div>
+    </div><!-- /.container-fluid -->
+</section>
+@*<button type="button" class="btn btn-success toastrDefaultSuccess">Launch Success Toast</button>*@
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="float-sm-right">
+                            <button type="button" class="btn btn-block btn-success btn-sm" onclick="EditModel(0);"><i class="fa fa-plus"></i> Add</button>
+                        </div>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="table-model" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Modelname</th>
+                                    <th>Manufacturer</th>
+                                    <th>First production date</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div>
+    <!-- /.container-fluid -->
+</section>
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript">
+    $(document).ready(() => {
+
+
+        $.ajax({
+            async: true,
+            cache: false,
+            type: "GET",
+            url: '@Url.Action("Grid","Model")',
+            success: function (response) {
+                var table = $("#table-model").DataTable({
+                    "paging": true,
+                    "lengthChange": false,
+                    "searching": true,
+                    "ordering": true,
+                    "info": true,
+                    "autoWidth": false,
+                    "responsive": true,
+                    "data": JSON.parse(response),
+                    "columns": [
+                        { data: "modelName" },
+                        { data: "manufacturerName" },
+                        {
+                            data: "firstProductionDate",
+                            render: function (data, type, row) {
+                                if (data != null && data != '' && data != undefined) {
+                                    var d = new Date(data);
+                                    return d.toLocaleDateString();
+                                }
+                            }
+                        },
+                        {
+                            data: "modelId",
+                            render: function (data, type, row) {
+                                var string = "";
+                                string = "<a href='javascript:void(0);' onclick='EditModel(" + data + ")' title='Edit'><i class='fa fa-edit'></i></a>";
+                                string += "<a href='javascript:void(0);' onclick='DeleteModel(" + data + ")' title= 'Delete'><i class='fa fa-trash'></i></a>";
+                                return string;
+                            }
+                        },
+                     ]
+                });
+            },
+            error: (err) => {
+                alert(err.Message);
+                return false;
+            }
+        });
+
+    });
+
+    function EditModel(id) {
+        var title = "Edit Model";
+        if (id == 0) {
+            title = "Add Model";
+        }
+         $.ajax({
+                type: 'GET',
+                url: '@Url.Action("AddEditModel", "Model")',
+                data: { ModelId: id },
+                success: (response) => {
+                    loadModalPopup(title, response);
+                },
+                error: (err) => {
+                    return false;
+                }
+            });
+    }
+
+    function DeleteModel(id) {
+
+         $.ajax({
+                type: 'POST',
+                url: '@Url.Action("DeleteModel", "Model")',
+                data: { ModelId: id },
+             success: (response) => {
+                 if (response != 'True' && response != 'False') {
+                     alert(response);
+                 }
+                 window.location.reload();
+                },
+                error: (err) => {
+                    return false;
+                }
+            });
+    }
+</script>

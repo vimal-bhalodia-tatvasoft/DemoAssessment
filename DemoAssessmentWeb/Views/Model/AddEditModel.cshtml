@@ -1,0 +1,90 @@
+﻿@{
+    Layout = "";
+}
+@model DemoAssessmentWeb.Models.ModelModel
+
+<form method="post" asp-action="AddEditModel" asp-controller="Model" onsubmit="SubmitForm();" id="ModelForm">
+    <div class="row">
+        <input type="hidden" asp-for="ModelId" />
+        <div class="col-sm-12">
+            <!-- select -->
+            <div class="form-group">
+                <label asp-for="ManufacturerId">Manufacturer</label>
+                <select class="form-control" asp-for="ManufacturerId" asp-items="Model.ManufacturerList">
+                    <option value="">Select</option>
+                </select>
+                <span asp-validation-for="ManufacturerId"></span>
+            </div>
+        </div>
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="ModelName">Model name</label>
+                <input type="text" class="form-control rounded-0" asp-for="ModelName" placeholder="Name">
+                <span asp-validation-for="ModelName"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label asp-for="FirstProductionDate">First Production date</label>
+                <input type="text" class="form-control rounded-0" asp-for="FirstProductionDate" placeholder="Name">
+                <span asp-validation-for="FirstProductionDate"></span>
+            </div>
+        </div>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+<link href="~/lib/bootstrap-datepicker-1.9.0-dist/css/bootstrap-datepicker.css" rel="stylesheet" />
+<script src="~/lib/bootstrap-datepicker-1.9.0-dist/js/bootstrap-datepicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+
+        $('#FirstProductionDate').datepicker({
+        });
+        
+        $("#ModelForm").validate({
+                rules: {
+                ManufacturerId: {
+                        required: true,
+                    },
+                ModelName: {
+                    required: true,
+                        maxlength: 200
+                    }
+            },
+            FirstProductionDate:
+            {
+                required: true,
+            },
+                messages: {
+                    ManufacturerId: {
+                        required: "Please select Manufacturer",
+                        minlength: "Please enter maximum 200 length of characters in name."
+                    },
+                    ModelName:
+                    {
+                        required: "Please enter model name",
+                        maxlength: "Please enter maximum 100 length of characters in name."
+                    },
+                     FirstProductionDate:
+                    {
+                        required: "Please enter first production date",
+                    }
+                }
+        });
+
+
+    });
+    
+    function SubmitForm() {
+        var val = $('#FirstProductionDate').val();
+        var d = new Date(val);
+        $('#FirstProductionDate').val(d.toLocaleDateString());
+
+    }
+
+</script>

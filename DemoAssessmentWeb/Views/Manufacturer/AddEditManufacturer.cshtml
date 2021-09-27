@@ -1,0 +1,64 @@
+﻿@{
+    Layout = "";
+}
+@model DemoAssessmentWeb.Models.ManufacturerModel
+
+<form method="post" asp-action="AddEditmanufacturer" asp-controller="Manufacturer" onsubmit="SubmitForm();" id="ManufacturerForm">
+    <div class="row">
+        <input type="hidden" asp-for="ManufacturerId" />
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="ManufacturerName">Manufacturer Name</label>
+                <input type="text" class="form-control rounded-0" asp-for="ManufacturerName" placeholder="Name">
+                <span asp-validation-for="ManufacturerName"></span>
+            </div>
+        </div>
+
+        <div class="col-sm-12">
+            <div class="form-group">
+                <label for="Country">Country</label>
+                <input type="text" class="form-control rounded-0" asp-for="Country" placeholder="Country">
+                <span asp-validation-for="Country"></span>
+            </div>
+        </div>
+    </div>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="modal-footer justify-content-between">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    function SubmitForm() {
+
+    }
+
+    $(document).ready(function () {
+        $("#ManufacturerForm").validate({
+            rules: {
+                ManufacturerName: {
+                    required: true,
+                    maxlength: 200
+                },
+                Country: {
+                    required: true,
+                    maxlength: 100
+                }
+            },
+            messages: {
+                ManufacturerName: {
+                    required: "Please enter manufacturer name",
+                    minlength: "Please enter maximum 200 length of characters in name."
+                },
+                Coutry:
+                {
+                    required: "Please enter Country",
+                    maxlength: "Please enter maximum 200 length of characters in country."
+                }
+            }
+        });
+    });
+
+</script>
