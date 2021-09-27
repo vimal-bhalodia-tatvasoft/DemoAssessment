@@ -1,5 +1,4 @@
-﻿
- <!-- Content Header (Page header) -->
+﻿<!-- Content Header (Page header) -->
 <section class="content-header">
     <div class="container-fluid">
         <div class="row mb-2">
@@ -24,7 +23,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-sm-right">
-                            <button type="button" class="btn btn-block btn-success btn-sm" onclick="EditManufacturer(0);" ><i class="fa fa-plus"></i> Add</button>
+                            <button type="button" class="btn btn-block btn-success btn-sm" onclick="EditManufacturer(0);" title="Add"><i class="fa fa-plus"></i> Add</button>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -76,8 +75,8 @@
                             data: "manufacturerId",
                             render: function (data, type, row) {
                                 var string = "";
-                                string = "<a href='javascript:void(0);' onclick='EditManufacturer(" + data + ")'><i class='fa fa-edit'></i></a>";
-                                string += "<a href='javascript:void(0);' onclick='DeleteManufacturer(" + data + ")'><i class='fa fa-trash'></i></a>";
+                                string = "<a href='javascript:void(0);' onclick='EditManufacturer(" + data + ")' title='Edit'><i class='fa fa-edit'></i></a>";
+                                string += "<a href='javascript:void(0);' onclick='DeleteManufacturer(" + data + ")' title='Delete'><i class='fa fa-trash'></i></a>";
                                 return string;
                             }
                         },
@@ -111,20 +110,26 @@
     }
 
     function DeleteManufacturer(id) {
-        
-         $.ajax({
-                type: 'POST',
-                url: '@Url.Action("DeleteManufacturer", "Manufacturer")',
-                data: { ManufacturerId: id },
-             success: (response) => {
-                 if (response != 'True' && response != 'False') {
-                     alert(response);
-                 }
-                 window.location.reload();
-                },
-                error: (err) => {
-                    return false;
+         confirmationDialogue('Delete Manufacturer',
+                'Are you sure you want to delete Manufacturer?',
+                (result) => {
+                    if (result) {
+                       $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("DeleteManufacturer", "Manufacturer")',
+                            data: { ManufacturerId: id },
+                            success: (response) => {
+                             if (response != 'True' && response != 'False') {
+                                 alert(response);
+                             }
+                             window.location.reload();
+                            },
+                            error: (err) => {
+                                return false;
+                            }
+                        });
+                    }
                 }
-            });
+            );
     }
 </script>

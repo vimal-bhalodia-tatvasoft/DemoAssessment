@@ -23,7 +23,7 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="float-sm-right">
-                            <button type="button" class="btn btn-block btn-success btn-sm" onclick="EditVehicle(0);"><i class="fa fa-plus"></i> Add</button>
+                            <button type="button" class="btn btn-block btn-success btn-sm" onclick="EditVehicle(0);" title="Add"><i class="fa fa-plus"></i> Add</button>
                         </div>
                     </div>
                     <!-- /.card-header -->
@@ -114,17 +114,24 @@
     }
 
     function DeleteVehicle(id) {
+        confirmationDialogue('Delete Vehicle',
+                'Are you sure you want to delete Vehicle?',
+                (result) => {
+                    if (result) {
+                        $.ajax({
+                            type: 'POST',
+                            url: '@Url.Action("DeleteVehicle", "Vehicle")',
+                            data: { VehicleId: id },
+                            success: (response) => {
+                             window.location.reload();
+                            },
+                            error: (err) => {
+                                return false;
+                            }
+                        });
 
-         $.ajax({
-                type: 'POST',
-                url: '@Url.Action("DeleteVehicle", "Vehicle")',
-                data: { VehicleId: id },
-             success: (response) => {
-                 window.location.reload();
-                },
-                error: (err) => {
-                    return false;
+                    }
                 }
-            });
+            );
     }
 </script>
