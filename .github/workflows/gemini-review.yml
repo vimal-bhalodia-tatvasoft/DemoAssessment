@@ -7,20 +7,19 @@ on:
 jobs:
   review:
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+      contents: read
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Fetch full history
-        run: git fetch origin ${{ github.base_ref }}
+      - uses: actions/checkout@v3
 
       - name: Generate PR Diff
-        run: git diff origin/${{ github.base_ref }} > pr.diff
+        run: git diff HEAD^ HEAD > pr.diff
 
-      - name: Run Gemini Review
+      - name: Run Gemini Review & Comment
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY  }}
-        run: |
-          npm install node-fetch
-          node scripts/gemini-review.js
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: node scripts/gemini-review.js
