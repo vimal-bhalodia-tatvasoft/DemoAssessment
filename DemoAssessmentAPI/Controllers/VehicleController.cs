@@ -28,6 +28,7 @@ namespace DemoAssessmentAPI.Controllers
         [HttpGet("GetVehicles")]
         public IEnumerable<Vehicle> Get()
         {
+			var abc="";
             var list = _vehicleService.GetVehicles();
             foreach (var item in list)
             {
