@@ -29,6 +29,8 @@ namespace DemoAssessmentAPI.Controllers
 			var akjshdkj = "";
 			if(true)
 			{} 
+			else
+			{}
 			
             var rng = new Random();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
