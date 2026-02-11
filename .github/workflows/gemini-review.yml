@@ -1,0 +1,26 @@
+name: Gemini Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Fetch full history
+        run: git fetch origin ${{ github.base_ref }}
+
+      - name: Generate PR Diff
+        run: git diff origin/${{ github.base_ref }} > pr.diff
+
+      - name: Run Gemini Review
+        env:
+          GEMINI_API_KEY: ${{ AIzaSyC40pXHYbWSyXtqKmCAmwVgT6ZTFNZNx7k }}
+        run: |
+          npm install node-fetch
+          node scripts/gemini-review.js
