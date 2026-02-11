@@ -27,6 +27,7 @@ namespace DemoAssessmentAPI.Controllers
         public IEnumerable<WeatherForecast> Get()
         {
 			var akjshdkj = "";
+			var akjshdkj4 = "";
 			if(true)
 			{} 
 			else
