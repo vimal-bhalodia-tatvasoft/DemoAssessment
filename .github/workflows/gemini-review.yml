@@ -20,7 +20,7 @@ jobs:
 
       - name: Run Gemini Review
         env:
-          GEMINI_API_KEY: ${{ AIzaSyC40pXHYbWSyXtqKmCAmwVgT6ZTFNZNx7k }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY  }}
         run: |
           npm install node-fetch
           node scripts/gemini-review.js
